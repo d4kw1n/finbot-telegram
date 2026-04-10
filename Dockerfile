@@ -26,15 +26,8 @@ COPY --from=builder /install /usr/local
 # Copy application code
 COPY . .
 
-# Create data directory for SQLite
-RUN mkdir -p /app/data
-
-# Non-root user for security
-RUN useradd -m -r finbot && chown -R finbot:finbot /app
-USER finbot
-
-# Persistent volume for database
-VOLUME ["/app/data"]
+# Create data directory with proper permissions
+RUN mkdir -p /app/data && chmod 777 /app/data
 
 # Health indicator via process
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
