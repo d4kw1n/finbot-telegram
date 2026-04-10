@@ -1,0 +1,20 @@
+services:
+  finbot:
+    build: .
+    container_name: finbot
+    restart: unless-stopped
+    # Use host network — fixes container DNS/connectivity issues
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      - finbot_data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  finbot_data:
+    driver: local
