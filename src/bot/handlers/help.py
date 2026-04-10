@@ -23,6 +23,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• `2tr` = 2,000,000đ\n"
         "• `2tr5` = 2,500,000đ\n"
         "• `1 củ` = 1,000,000đ\n"
+        "• `500 ngàn` = 500,000đ\n"
+        "• `5 trăm` = 500,000đ\n"
         "• `$25` = ~637,500đ\n\n"
 
         "━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
@@ -41,6 +43,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "*Báo cáo:*\n"
         "• /report — Báo cáo + biểu đồ\n"
         "• /advice `<câu hỏi>` — Tư vấn AI\n\n"
+
+        "*Tìm kiếm & Xuất dữ liệu:*\n"
+        "• /search `<từ khóa>` — Tìm GD\n"
+        "• /export — Xuất CSV tháng này\n"
+        "• /export `all` — Xuất tất cả\n"
+        "• /backup — Sao lưu database\n\n"
 
         "*Mục tiêu:*\n"
         "• /goal — Xem mục tiêu\n"

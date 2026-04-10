@@ -5,6 +5,7 @@ transactions, savings goals, and recurring transactions.
 """
 import json
 import aiosqlite
+from contextlib import asynccontextmanager
 from pathlib import Path
 from datetime import date, datetime
 
@@ -14,13 +15,22 @@ from src.utils.constants import DEFAULT_CATEGORIES
 _db_path = DB_PATH
 
 
-async def get_db() -> aiosqlite.Connection:
-    """Get an async database connection with optimized settings."""
+@asynccontextmanager
+async def get_db():
+    """Async context manager for database connections.
+
+    Usage:
+        async with get_db() as db:
+            cursor = await db.execute(...)
+    """
     db = await aiosqlite.connect(_db_path)
     db.row_factory = aiosqlite.Row
     await db.execute("PRAGMA journal_mode=WAL")
     await db.execute("PRAGMA foreign_keys=ON")
-    return db
+    try:
+        yield db
+    finally:
+        await db.close()
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -31,8 +41,7 @@ async def init_db():
     """Create tables and seed default categories."""
     Path(_db_path).parent.mkdir(parents=True, exist_ok=True)
 
-    db = await get_db()
-    try:
+    async with get_db() as db:
         await db.executescript("""
             CREATE TABLE IF NOT EXISTS settings (
                 id INTEGER PRIMARY KEY DEFAULT 1,
@@ -86,19 +95,6 @@ async def init_db():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
 
-            CREATE TABLE IF NOT EXISTS recurring_transactions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                category_id INTEGER REFERENCES categories(id),
-                type TEXT NOT NULL CHECK(type IN ('income', 'expense')),
-                amount REAL NOT NULL,
-                description TEXT,
-                frequency TEXT NOT NULL,
-                day_of_month INTEGER,
-                next_date DATE NOT NULL,
-                is_active INTEGER DEFAULT 1,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-
             CREATE INDEX IF NOT EXISTS idx_tx_date ON transactions(transaction_date);
             CREATE INDEX IF NOT EXISTS idx_tx_category ON transactions(category_id);
             CREATE INDEX IF NOT EXISTS idx_tx_type ON transactions(type);
@@ -123,8 +119,6 @@ async def init_db():
                 )
 
         await db.commit()
-    finally:
-        await db.close()
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -133,19 +127,15 @@ async def init_db():
 
 async def get_settings() -> dict:
     """Get user settings (single row)."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute("SELECT * FROM settings WHERE id = 1")
         row = await cursor.fetchone()
         return dict(row) if row else {}
-    finally:
-        await db.close()
 
 
 async def update_settings(**kwargs) -> None:
     """Update settings fields."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         sets = ", ".join(f"{k} = ?" for k in kwargs)
         vals = list(kwargs.values())
         vals.append(datetime.now().isoformat())
@@ -153,8 +143,6 @@ async def update_settings(**kwargs) -> None:
             f"UPDATE settings SET {sets}, updated_at = ? WHERE id = 1", vals
         )
         await db.commit()
-    finally:
-        await db.close()
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -164,8 +152,7 @@ async def update_settings(**kwargs) -> None:
 async def get_categories(cat_type: str | None = None,
                          active_only: bool = True) -> list[dict]:
     """Get categories, optionally filtered by type."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         query = "SELECT * FROM categories WHERE 1=1"
         params = []
         if cat_type:
@@ -183,14 +170,11 @@ async def get_categories(cat_type: str | None = None,
             d["keywords"] = json.loads(d.get("keywords", "[]"))
             result.append(d)
         return result
-    finally:
-        await db.close()
 
 
 async def get_category(cat_id: int) -> dict | None:
     """Get a single category by ID."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute("SELECT * FROM categories WHERE id = ?", (cat_id,))
         row = await cursor.fetchone()
         if row:
@@ -198,8 +182,6 @@ async def get_category(cat_id: int) -> dict | None:
             d["keywords"] = json.loads(d.get("keywords", "[]"))
             return d
         return None
-    finally:
-        await db.close()
 
 
 async def find_category_by_keywords(text: str) -> tuple[dict | None, float]:
@@ -239,8 +221,7 @@ async def add_transaction(category_id: int, tx_type: str, amount: float,
                           description: str, payment_method: str = "cash",
                           transaction_date: date | None = None) -> int:
     """Add a new transaction. Returns the new transaction ID."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         tx_date = transaction_date or date.today()
         cursor = await db.execute(
             "INSERT INTO transactions "
@@ -251,18 +232,16 @@ async def add_transaction(category_id: int, tx_type: str, amount: float,
         )
         await db.commit()
         return cursor.lastrowid
-    finally:
-        await db.close()
 
 
 async def get_transactions(start_date: date | None = None,
                            end_date: date | None = None,
                            category_id: int | None = None,
                            tx_type: str | None = None,
+                           search: str | None = None,
                            limit: int = 50, offset: int = 0) -> list[dict]:
     """Get transactions with optional filters."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         query = """
             SELECT t.*, c.name as category_name, c.emoji as category_emoji,
                    c.type as category_type
@@ -283,6 +262,9 @@ async def get_transactions(start_date: date | None = None,
         if tx_type:
             query += " AND t.type = ?"
             params.append(tx_type)
+        if search:
+            query += " AND (t.description LIKE ? OR c.name LIKE ?)"
+            params.extend([f"%{search}%", f"%{search}%"])
         query += " ORDER BY t.transaction_date DESC, t.created_at DESC"
         query += " LIMIT ? OFFSET ?"
         params.extend([limit, offset])
@@ -290,14 +272,37 @@ async def get_transactions(start_date: date | None = None,
         cursor = await db.execute(query, params)
         rows = await cursor.fetchall()
         return [dict(row) for row in rows]
-    finally:
-        await db.close()
+
+
+async def get_all_transactions_for_export(start_date: date | None = None,
+                                           end_date: date | None = None) -> list[dict]:
+    """Get all transactions for CSV export (no limit)."""
+    async with get_db() as db:
+        query = """
+            SELECT t.transaction_date, t.type, t.amount, t.description,
+                   t.payment_method, c.name as category_name,
+                   c.type as category_type, c.emoji as category_emoji
+            FROM transactions t
+            LEFT JOIN categories c ON t.category_id = c.id
+            WHERE 1=1
+        """
+        params = []
+        if start_date:
+            query += " AND t.transaction_date >= ?"
+            params.append(start_date.isoformat())
+        if end_date:
+            query += " AND t.transaction_date <= ?"
+            params.append(end_date.isoformat())
+        query += " ORDER BY t.transaction_date ASC, t.created_at ASC"
+
+        cursor = await db.execute(query, params)
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
 
 
 async def get_last_transaction() -> dict | None:
     """Get the most recently created transaction."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute(
             "SELECT t.*, c.name as category_name, c.emoji as category_emoji "
             "FROM transactions t "
@@ -306,27 +311,21 @@ async def get_last_transaction() -> dict | None:
         )
         row = await cursor.fetchone()
         return dict(row) if row else None
-    finally:
-        await db.close()
 
 
 async def delete_transaction(tx_id: int) -> bool:
     """Delete a transaction by ID. Returns True if deleted."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute(
             "DELETE FROM transactions WHERE id = ?", (tx_id,)
         )
         await db.commit()
         return cursor.rowcount > 0
-    finally:
-        await db.close()
 
 
 async def update_transaction(tx_id: int, **kwargs) -> bool:
     """Update transaction fields. Returns True if updated."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         sets = ", ".join(f"{k} = ?" for k in kwargs)
         vals = list(kwargs.values()) + [tx_id]
         cursor = await db.execute(
@@ -334,8 +333,6 @@ async def update_transaction(tx_id: int, **kwargs) -> bool:
         )
         await db.commit()
         return cursor.rowcount > 0
-    finally:
-        await db.close()
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -344,8 +341,7 @@ async def update_transaction(tx_id: int, **kwargs) -> bool:
 
 async def get_spending_summary(start_date: date, end_date: date) -> dict:
     """Get total income/expense/net for a date range."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute(
             "SELECT COALESCE(SUM(amount), 0) FROM transactions "
             "WHERE type = 'income' AND transaction_date BETWEEN ? AND ?",
@@ -375,14 +371,11 @@ async def get_spending_summary(start_date: date, end_date: date) -> dict:
             "start_date": start_date,
             "end_date": end_date,
         }
-    finally:
-        await db.close()
 
 
 async def get_category_spending(start_date: date, end_date: date) -> list[dict]:
     """Get expense breakdown by category for a date range."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute(
             """
             SELECT c.id, c.name, c.emoji, c.type, c.budget_limit,
@@ -401,14 +394,11 @@ async def get_category_spending(start_date: date, end_date: date) -> list[dict]:
         )
         rows = await cursor.fetchall()
         return [dict(row) for row in rows]
-    finally:
-        await db.close()
 
 
 async def get_type_spending(start_date: date, end_date: date) -> dict:
     """Get expense totals by type (need/want/saving)."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute(
             """
             SELECT c.type, COALESCE(SUM(t.amount), 0) as total
@@ -426,14 +416,11 @@ async def get_type_spending(start_date: date, end_date: date) -> dict:
             if row["type"] in result:
                 result[row["type"]] = row["total"]
         return result
-    finally:
-        await db.close()
 
 
 async def get_daily_spending(start_date: date, end_date: date) -> list[dict]:
     """Get daily expense totals for a date range."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute(
             """
             SELECT transaction_date, COALESCE(SUM(amount), 0) as total,
@@ -448,8 +435,6 @@ async def get_daily_spending(start_date: date, end_date: date) -> list[dict]:
         )
         rows = await cursor.fetchall()
         return [dict(row) for row in rows]
-    finally:
-        await db.close()
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -459,8 +444,7 @@ async def get_daily_spending(start_date: date, end_date: date) -> list[dict]:
 async def add_goal(name: str, target_amount: float,
                    deadline: date | None = None, emoji: str = "🎯") -> int:
     """Create a new savings goal. Returns the goal ID."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute(
             "INSERT INTO savings_goals (name, target_amount, deadline, emoji) "
             "VALUES (?, ?, ?, ?)",
@@ -469,14 +453,11 @@ async def add_goal(name: str, target_amount: float,
         )
         await db.commit()
         return cursor.lastrowid
-    finally:
-        await db.close()
 
 
 async def get_goals(active_only: bool = True) -> list[dict]:
     """Get all savings goals."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         query = "SELECT * FROM savings_goals"
         if active_only:
             query += " WHERE is_completed = 0"
@@ -484,14 +465,11 @@ async def get_goals(active_only: bool = True) -> list[dict]:
         cursor = await db.execute(query)
         rows = await cursor.fetchall()
         return [dict(row) for row in rows]
-    finally:
-        await db.close()
 
 
 async def update_goal(goal_id: int, **kwargs) -> bool:
     """Update a savings goal."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         sets = ", ".join(f"{k} = ?" for k in kwargs)
         vals = list(kwargs.values()) + [goal_id]
         cursor = await db.execute(
@@ -499,18 +477,13 @@ async def update_goal(goal_id: int, **kwargs) -> bool:
         )
         await db.commit()
         return cursor.rowcount > 0
-    finally:
-        await db.close()
 
 
 async def delete_goal(goal_id: int) -> bool:
     """Delete a savings goal."""
-    db = await get_db()
-    try:
+    async with get_db() as db:
         cursor = await db.execute(
             "DELETE FROM savings_goals WHERE id = ?", (goal_id,)
         )
         await db.commit()
         return cursor.rowcount > 0
-    finally:
-        await db.close()

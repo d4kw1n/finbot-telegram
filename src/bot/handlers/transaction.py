@@ -10,6 +10,7 @@ Handles:
 """
 import logging
 import os
+import re
 from datetime import date, timedelta
 
 from telegram import Update
@@ -36,6 +37,24 @@ from src.bot.keyboards.inline import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+def _escape_md(text: str) -> str:
+    """Escape Markdown special chars in user-generated text."""
+    if not text:
+        return text
+    for ch in ['_', '*', '`', '[']:
+        text = text.replace(ch, f'\\{ch}')
+    return text
+
+
+async def _safe_reply(message, text: str, **kwargs):
+    """Send with Markdown, fallback to plain text on parse error."""
+    try:
+        await message.reply_text(text, parse_mode="Markdown", **kwargs)
+    except Exception:
+        clean = text.replace('*', '').replace('_', '').replace('`', '')
+        await message.reply_text(clean, **kwargs)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -182,12 +201,11 @@ async def _send_tx_confirmation(message, tx_id, amount, description,
         f"📅 {format_date(tx_date)}"
     )
     if description:
-        text += f"\n📝 {description}"
+        text += f"\n📝 {_escape_md(description)}"
     text += today_summary
 
-    await message.reply_text(
-        text,
-        parse_mode="Markdown",
+    await _safe_reply(
+        message, text,
         reply_markup=transaction_actions(tx_id)
     )
 

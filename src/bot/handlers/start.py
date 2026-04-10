@@ -18,7 +18,7 @@ from telegram.ext import (
 from src.database import get_settings, update_settings, get_spending_summary, get_type_spending
 from src.utils.formatter import format_currency, progress_bar, percentage
 from src.parsers.amount_parser import parse_amount
-from src.bot.keyboards.inline import income_options, budget_style_picker
+from src.bot.keyboards.inline import income_options, budget_style_picker, dashboard_actions
 
 logger = logging.getLogger(__name__)
 
@@ -276,7 +276,10 @@ async def _show_dashboard(update: Update):
         )
 
     text += "📝 Gửi tin nhắn để ghi chi tiêu nhanh!"
-    await update.message.reply_text(text, parse_mode="Markdown")
+    await update.message.reply_text(
+        text, parse_mode="Markdown",
+        reply_markup=dashboard_actions()
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -302,3 +305,39 @@ def get_start_handler() -> ConversationHandler:
         allow_reentry=True,
         per_message=False,
     )
+
+
+async def handle_dashboard_callback(update: Update,
+                                     context: ContextTypes.DEFAULT_TYPE):
+    """Handle dashboard quick action buttons."""
+    query = update.callback_query
+    await query.answer()
+
+    action = query.data.split("_")[1]
+    chat_id = query.message.chat_id
+
+    if action == "report":
+        from src.bot.handlers.report import report_command
+        # Create a fake update.message from the callback message
+        update._effective_message = query.message
+        await report_command(update, context)
+    elif action == "budget":
+        from src.bot.handlers.budget import budget_command
+        update._effective_message = query.message
+        await budget_command(update, context)
+    elif action == "history":
+        from src.bot.handlers.transaction import history_command
+        update._effective_message = query.message
+        await history_command(update, context)
+    elif action == "export":
+        from src.bot.handlers.utility import export_command
+        update._effective_message = query.message
+        await export_command(update, context)
+
+
+def get_dashboard_handlers() -> list:
+    """Get dashboard callback handlers (separate from ConversationHandler)."""
+    return [
+        CallbackQueryHandler(handle_dashboard_callback,
+                             pattern=r"^dash_"),
+    ]

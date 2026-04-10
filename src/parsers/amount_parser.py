@@ -45,6 +45,10 @@ _AMOUNT_PATTERNS = [
     (r'(\d+)\s*(?:trăm)\s*(?:ngàn|nghìn|k)?',
      lambda m: int(m.group(1)) * 100_000),
 
+    # 500 ngàn, 500 nghìn → 500,000
+    (r'(\d+)\s*(?:ngàn|nghìn)',
+     lambda m: int(m.group(1)) * 1_000),
+
     # $25 → convert to VND using live exchange rate
     (r'\$\s*(\d+(?:\.\d{1,2})?)',
      lambda m: float(m.group(1)) * _get_usd_rate()),

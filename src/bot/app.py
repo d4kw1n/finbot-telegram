@@ -7,13 +7,14 @@ from src.config import BOT_TOKEN
 from src.database import init_db
 from src.services.ai_service import init_ai
 
-from src.bot.handlers.start import get_start_handler
+from src.bot.handlers.start import get_start_handler, get_dashboard_handlers
 from src.bot.handlers.transaction import get_transaction_handlers
 from src.bot.handlers.budget import get_budget_handlers
 from src.bot.handlers.report import get_report_handlers
 from src.bot.handlers.goal import get_goal_handlers
 from src.bot.handlers.settings import get_settings_handlers
 from src.bot.handlers.help import get_help_handler
+from src.bot.handlers.utility import get_utility_handlers
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,10 @@ async def post_init(application: Application) -> None:
         BotCommand("budget", "Xem ngân sách"),
         BotCommand("report", "Báo cáo & biểu đồ"),
         BotCommand("goal", "Mục tiêu tiết kiệm"),
+        BotCommand("search", "Tìm kiếm giao dịch"),
         BotCommand("history", "Giao dịch gần đây"),
+        BotCommand("export", "Xuất CSV"),
+        BotCommand("backup", "Sao lưu database"),
         BotCommand("undo", "Hoàn tác GD cuối"),
         BotCommand("advice", "Tư vấn tài chính AI"),
         BotCommand("settings", "Cài đặt"),
@@ -51,6 +55,10 @@ async def post_init(application: Application) -> None:
     ]
     await application.bot.set_my_commands(commands)
     logger.info("✅ Bot commands registered.")
+
+    # Setup daily reminder
+    from src.services.reminder_service import setup_daily_reminder
+    setup_daily_reminder(application)
 
 
 def create_app() -> Application:
@@ -87,6 +95,10 @@ def create_app() -> Application:
     # 1. Start/Onboarding conversation
     app.add_handler(get_start_handler())
 
+    # 1b. Dashboard callbacks (outside ConversationHandler)
+    for handler in get_dashboard_handlers():
+        app.add_handler(handler)
+
     # 2. Budget commands
     for handler in get_budget_handlers():
         app.add_handler(handler)
@@ -106,7 +118,11 @@ def create_app() -> Application:
     # 6. Help command
     app.add_handler(get_help_handler())
 
-    # 7. Transaction handlers (NLP handler MUST be last)
+    # 7. Utility commands (export, backup, search)
+    for handler in get_utility_handlers():
+        app.add_handler(handler)
+
+    # 8. Transaction handlers (NLP handler MUST be last)
     for handler in get_transaction_handlers():
         app.add_handler(handler)
 

@@ -124,3 +124,18 @@ def budget_style_picker() -> InlineKeyboardMarkup:
         [InlineKeyboardButton("✏️ Tùy chỉnh tỷ lệ",
                               callback_data="budget_custom")],
     ])
+
+
+def dashboard_actions() -> InlineKeyboardMarkup:
+    """Quick action buttons for dashboard."""
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("📊 Báo cáo", callback_data="dash_report"),
+            InlineKeyboardButton("💰 Ngân sách", callback_data="dash_budget"),
+        ],
+        [
+            InlineKeyboardButton("📋 Lịch sử", callback_data="dash_history"),
+            InlineKeyboardButton("📤 Xuất CSV", callback_data="dash_export"),
+        ],
+    ])
+
