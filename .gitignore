@@ -33,7 +33,8 @@ Thumbs.db
 
 # Charts temp
 *.png
-!README_assets/
+!assets/
+!assets/*.png
 
 # Logs
 *.log
