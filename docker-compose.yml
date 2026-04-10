@@ -8,13 +8,10 @@ services:
     env_file:
       - .env
     volumes:
-      - finbot_data:/app/data
+      # Bind mount — DB file lives on host at ./data/ for easy backup
+      - ./data:/app/data
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "3"
-
-volumes:
-  finbot_data:
-    driver: local
