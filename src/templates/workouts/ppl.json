@@ -1,0 +1,501 @@
+{
+  "name": "Push/Pull/Legs (PPL)",
+  "description": "Chương trình PPL 6 ngày/tuần cho tăng cơ tối ưu",
+  "schedule": ["push", "pull", "legs", "push", "pull", "legs", "rest"],
+  "warmup": {
+    "duration_min": 10,
+    "steps": [
+      "5 phút cardio nhẹ (đi bộ nhanh / đạp xe)",
+      "Xoay vai 20 vòng (10 mỗi chiều)",
+      "Xoay hông 20 vòng (10 mỗi chiều)",
+      "Arm circles 20 vòng",
+      "10 bodyweight squats",
+      "10 push-ups nhẹ",
+      "Giãn cơ động (dynamic stretching) 2 phút"
+    ]
+  },
+  "cooldown": {
+    "duration_min": 5,
+    "steps": [
+      "3 phút đi bộ nhẹ, hạ nhịp tim",
+      "Giãn cơ ngực: 30s mỗi bên",
+      "Giãn cơ vai: 30s mỗi bên",
+      "Giãn cơ tứ đầu: 30s mỗi bên",
+      "Giãn cơ hamstring: 30s mỗi bên",
+      "Hít thở sâu 5 nhịp"
+    ]
+  },
+  "days": {
+    "push": {
+      "label": "PUSH — Ngực, Vai, Tay sau",
+      "target_muscles": ["Ngực (chest)", "Vai trước & giữa (anterior & lateral delt)", "Tay sau (triceps)"],
+      "estimated_duration_min": 60,
+      "exercises": [
+        {
+          "name": "Barbell Bench Press",
+          "name_vi": "Đẩy tạ đòn nằm ngang",
+          "category": "compound",
+          "primary_muscles": ["Ngực giữa", "Tay sau"],
+          "secondary_muscles": ["Vai trước"],
+          "sets": 4,
+          "reps": "6-8",
+          "rest": "2-3 phút",
+          "tempo": "2-1-1-0",
+          "suggested_start_weight": "40-50 kg",
+          "technique": [
+            "Nằm trên ghế, mắt thẳng dưới thanh đòn",
+            "Tay nắm rộng hơn vai ~1.5 lần",
+            "Hạ thanh đòn chạm ngực (ngang núm vú)",
+            "Đẩy lên theo đường thẳng, khóa khuỷu tay ở đỉnh",
+            "Giữ lưng hơi cong tự nhiên, chân đạp xuống sàn",
+            "HÍT VÀO khi hạ, THỞ RA khi đẩy"
+          ],
+          "common_mistakes": [
+            "Nảy tạ trên ngực",
+            "Nhấc mông khỏi ghế",
+            "Hạ tạ quá nhanh không kiểm soát"
+          ],
+          "note": "Compound chính. Tập nặng, progressive overload mỗi tuần."
+        },
+        {
+          "name": "Incline Dumbbell Press",
+          "name_vi": "Đẩy tạ đơn ghế nghiêng",
+          "category": "compound",
+          "primary_muscles": ["Ngực trên"],
+          "secondary_muscles": ["Vai trước", "Tay sau"],
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "90s",
+          "tempo": "2-1-1-0",
+          "suggested_start_weight": "14-18 kg mỗi tay",
+          "technique": [
+            "Ghế nghiêng 30-45 độ",
+            "Giữ tạ ngang vai, lòng bàn tay hướng ra trước",
+            "Đẩy lên hội tụ (hơi khép vào) ở đỉnh",
+            "Hạ chậm, cảm nhận ngực trên giãn ra"
+          ],
+          "common_mistakes": [
+            "Ghế nghiêng quá cao (>45°) biến thành bài vai",
+            "Không kiểm soát pha hạ (eccentric)"
+          ],
+          "note": "Tập trung ngực trên. Tạo hình ngực đầy đặn."
+        },
+        {
+          "name": "Overhead Press (OHP)",
+          "name_vi": "Đẩy tạ qua đầu",
+          "category": "compound",
+          "primary_muscles": ["Vai trước", "Vai giữa"],
+          "secondary_muscles": ["Tay sau", "Core"],
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "2 phút",
+          "tempo": "2-0-1-0",
+          "suggested_start_weight": "25-35 kg",
+          "technique": [
+            "Đứng thẳng, chân rộng bằng vai",
+            "Tay nắm thanh đòn rộng hơn vai",
+            "Đẩy thẳng lên trên, hơi đưa đầu ra trước khi tạ qua",
+            "Khóa khuỷu tay ở đỉnh, tạ ngay trên đỉnh đầu",
+            "Siết core xuyên suốt để bảo vệ lưng"
+          ],
+          "common_mistakes": [
+            "Ngả lưng quá nhiều (biến thành incline press)",
+            "Không siết core → đau lưng dưới"
+          ],
+          "note": "Compound vai mạnh nhất. Đứng tập để kích hoạt core."
+        },
+        {
+          "name": "Dumbbell Lateral Raises",
+          "name_vi": "Nâng tạ đơn sang ngang",
+          "category": "isolation",
+          "primary_muscles": ["Vai giữa"],
+          "secondary_muscles": ["Vai trước"],
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60s",
+          "tempo": "2-1-2-0",
+          "suggested_start_weight": "5-8 kg mỗi tay",
+          "technique": [
+            "Đứng thẳng, tạ hai bên hông",
+            "Nâng tạ sang hai bên đến ngang vai (hình chữ T)",
+            "Khuỷu tay hơi cong cố định, không swing",
+            "Hạ CHẬM (2 giây), cảm nhận vai giữa kéo căng",
+            "Tưởng tượng đổ nước từ bình ra khi nâng lên"
+          ],
+          "common_mistakes": [
+            "Dùng tạ quá nặng → swing cả người",
+            "Nâng quá cao trên vai → trapezius làm việc thay"
+          ],
+          "note": "Vai giữa = vai rộng. Nhẹ nhàng, nhiều rep, cảm nhận cơ."
+        },
+        {
+          "name": "Cable Tricep Pushdown",
+          "name_vi": "Đẩy dây cáp xuống tay sau",
+          "category": "isolation",
+          "primary_muscles": ["Tay sau (đầu ngoài)"],
+          "secondary_muscles": [],
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60s",
+          "tempo": "2-1-1-1",
+          "suggested_start_weight": "15-25 kg",
+          "technique": [
+            "Đứng trước máy cáp, tay nắm thanh/dây cáp",
+            "Khuỷu tay ép sát bên người, CỐ ĐỊNH vị trí",
+            "Chỉ duỗi cẳng tay xuống, siết tay sau ở đáy",
+            "Giữ 1 giây ở đáy, hạ chậm có kiểm soát"
+          ],
+          "common_mistakes": [
+            "Di chuyển khuỷu tay ra trước/sau",
+            "Dùng lực toàn thân để đẩy xuống"
+          ],
+          "note": "Giữ khuỷu tay cố định. Chỉ cẳng tay chuyển động."
+        },
+        {
+          "name": "Overhead Tricep Extension",
+          "name_vi": "Duỗi tay sau qua đầu",
+          "category": "isolation",
+          "primary_muscles": ["Tay sau (đầu dài)"],
+          "secondary_muscles": [],
+          "sets": 2,
+          "reps": "12-15",
+          "rest": "60s",
+          "tempo": "2-1-1-1",
+          "suggested_start_weight": "10-15 kg (dây cáp hoặc tạ đơn)",
+          "technique": [
+            "Có thể dùng dây cáp hoặc tạ đơn",
+            "Hai tay nắm tạ phía sau đầu",
+            "Duỗi thẳng tay lên, siết tay sau ở đỉnh",
+            "Hạ chậm, cảm nhận đầu dài tay sau giãn ra"
+          ],
+          "common_mistakes": [
+            "Khuỷu tay bung ra ngoài",
+            "Dùng lực vai thay vì tay sau"
+          ],
+          "note": "Đầu dài tricep — tạo kích thước tay sau tổng thể."
+        }
+      ]
+    },
+    "pull": {
+      "label": "PULL — Lưng, Tay trước",
+      "target_muscles": ["Lưng xô (lats)", "Lưng giữa (rhomboids, traps)", "Vai sau (posterior delt)", "Tay trước (biceps)"],
+      "estimated_duration_min": 60,
+      "exercises": [
+        {
+          "name": "Deadlift",
+          "name_vi": "Nâng tạ chết",
+          "category": "compound",
+          "primary_muscles": ["Lưng dưới", "Hamstring", "Mông"],
+          "secondary_muscles": ["Lưng trên", "Core", "Cẳng tay"],
+          "sets": 4,
+          "reps": "5-6",
+          "rest": "3 phút",
+          "tempo": "1-0-1-1",
+          "suggested_start_weight": "50-60 kg",
+          "technique": [
+            "Chân rộng bằng hông, bàn chân dưới thanh đòn",
+            "Nắm tạ rộng hơn chân (overhand hoặc mixed grip)",
+            "Lưng THẲNG, ngực ưỡn, mắt nhìn thẳng",
+            "Đẩy chân xuống sàn (như đẩy sàn ra xa)",
+            "Giữ tạ sát người xuyên suốt",
+            "Khóa hông ở đỉnh, siết mông",
+            "Hạ tạ theo đường ngược lại, KHÔNG thả rơi"
+          ],
+          "common_mistakes": [
+            "⚠️ Cong lưng (NGUY HIỂM — có thể thoát vị đĩa đệm)",
+            "Thanh đòn xa người → lưng chịu lực quá nhiều",
+            "Nhấc bằng lưng thay vì đẩy bằng chân"
+          ],
+          "note": "Compound mạnh nhất. Nếu mới tập: HỌC KỸ THUẬT TRƯỚC, bắt đầu nhẹ!"
+        },
+        {
+          "name": "Pull-ups / Lat Pulldown",
+          "name_vi": "Kéo xà / Kéo cáp xuống",
+          "category": "compound",
+          "primary_muscles": ["Lưng xô (lats)"],
+          "secondary_muscles": ["Tay trước", "Vai sau"],
+          "sets": 4,
+          "reps": "8-10",
+          "rest": "90s",
+          "tempo": "2-1-1-1",
+          "suggested_start_weight": "Bodyweight / 40-55 kg (pulldown)",
+          "technique": [
+            "Tay nắm rộng hơn vai",
+            "Kéo ngực lên về phía xà (pull-up) hoặc kéo thanh về ngực (pulldown)",
+            "Ép xương bả vai lại khi kéo",
+            "Hạ CHẬM, duỗi hết tay ở đáy",
+            "Nếu chưa pull-up được: dùng Lat Pulldown hoặc band-assisted"
+          ],
+          "common_mistakes": [
+            "Kéo bằng tay trước thay vì lưng",
+            "Không duỗi hết tay ở đáy (half rep)"
+          ],
+          "note": "Lưng rộng = lưng chữ V. Nếu chưa pull-up được, dùng Lat Pulldown."
+        },
+        {
+          "name": "Barbell Row",
+          "name_vi": "Chèo tạ đòn",
+          "category": "compound",
+          "primary_muscles": ["Lưng giữa", "Lưng xô"],
+          "secondary_muscles": ["Tay trước", "Vai sau"],
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "90s",
+          "tempo": "1-1-1-1",
+          "suggested_start_weight": "35-45 kg",
+          "technique": [
+            "Cúi người 45 độ, lưng thẳng",
+            "Tay nắm thanh đòn rộng bằng vai",
+            "Kéo tạ về phía bụng dưới (gần rốn)",
+            "Ép xương bả vai lại ở đỉnh, giữ 1 giây",
+            "Hạ chậm, cảm nhận lưng giãn ra"
+          ],
+          "common_mistakes": [
+            "Cong lưng khi kéo",
+            "Đứng quá thẳng (biến thành shrug)"
+          ],
+          "note": "Lưng dày. Cúi 45 độ, kéo về bụng dưới."
+        },
+        {
+          "name": "Face Pulls",
+          "name_vi": "Kéo cáp về mặt",
+          "category": "isolation",
+          "primary_muscles": ["Vai sau"],
+          "secondary_muscles": ["Lưng giữa (traps)"],
+          "sets": 3,
+          "reps": "15-20",
+          "rest": "60s",
+          "tempo": "2-1-2-0",
+          "suggested_start_weight": "10-20 kg",
+          "technique": [
+            "Dây cáp đặt ngang đầu hoặc cao hơn",
+            "Dùng dây rope, kéo về phía mặt",
+            "Mở rộng tay ra (xoay ngoài) ở đỉnh",
+            "Siết vai sau và lưng giữa",
+            "Hạ chậm, kiểm soát"
+          ],
+          "common_mistakes": [
+            "Dùng quá nặng → kéo bằng toàn thân",
+            "Không xoay ngoài ở đỉnh"
+          ],
+          "note": "BÀI TẬP SỨC KHỎE VAI số 1. Nhẹ nhàng, cảm nhận vai sau."
+        },
+        {
+          "name": "Barbell Curl",
+          "name_vi": "Cuốn tạ đòn tay trước",
+          "category": "isolation",
+          "primary_muscles": ["Tay trước (biceps)"],
+          "secondary_muscles": ["Cẳng tay"],
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60s",
+          "tempo": "2-1-2-0",
+          "suggested_start_weight": "15-25 kg",
+          "technique": [
+            "Đứng thẳng, tay nắm thanh đòn rộng bằng vai",
+            "Khuỷu tay ép sát bên người, CỐ ĐỊNH",
+            "Cuốn tạ lên bằng lực tay trước",
+            "Siết ở đỉnh 1 giây",
+            "Hạ CHẬM (2 giây) — pha này quan trọng cho tăng cơ"
+          ],
+          "common_mistakes": [
+            "Swing người để lấy đà",
+            "Khuỷu tay di chuyển ra trước"
+          ],
+          "note": "Không swing. Tempo chậm, cảm nhận biceps hoạt động."
+        },
+        {
+          "name": "Hammer Curl",
+          "name_vi": "Cuốn tạ kiểu búa",
+          "category": "isolation",
+          "primary_muscles": ["Tay trước (brachialis)", "Cẳng tay"],
+          "secondary_muscles": [],
+          "sets": 2,
+          "reps": "12-15",
+          "rest": "60s",
+          "tempo": "2-1-2-0",
+          "suggested_start_weight": "8-12 kg mỗi tay",
+          "technique": [
+            "Tạ đơn hai tay, lòng bàn tay hướng vào nhau",
+            "Cuốn lên như cầm búa đập",
+            "Khuỷu tay cố định bên người",
+            "Có thể cuốn luân phiên hoặc cùng lúc"
+          ],
+          "common_mistakes": [
+            "Lắc người lấy đà",
+            "Nâng quá nhanh không kiểm soát"
+          ],
+          "note": "Brachialis + cẳng tay = tay trước dày. Bổ trợ tốt cho pull-up."
+        }
+      ]
+    },
+    "legs": {
+      "label": "LEGS — Chân, Mông",
+      "target_muscles": ["Đùi trước (quadriceps)", "Đùi sau (hamstrings)", "Mông (glutes)", "Bắp chân (calves)"],
+      "estimated_duration_min": 65,
+      "exercises": [
+        {
+          "name": "Barbell Squat",
+          "name_vi": "Gánh tạ đòn (squat)",
+          "category": "compound",
+          "primary_muscles": ["Đùi trước", "Mông"],
+          "secondary_muscles": ["Đùi sau", "Core", "Lưng dưới"],
+          "sets": 4,
+          "reps": "6-8",
+          "rest": "3 phút",
+          "tempo": "2-1-1-0",
+          "suggested_start_weight": "40-50 kg",
+          "technique": [
+            "Thanh đòn đặt trên trapezius (high bar) hoặc vai sau (low bar)",
+            "Chân rộng bằng vai hoặc hơi rộng hơn",
+            "Mũi chân xoay ra ngoài 15-30 độ",
+            "Hạ người xuống: đẩy hông ra sau, gối theo hướng mũi chân",
+            "Xuống đến khi đùi SONG SONG với sàn hoặc sâu hơn",
+            "Đẩy lên bằng gót chân, ưỡn ngực",
+            "HÍT VÀO khi hạ, THỞ RA khi đẩy lên"
+          ],
+          "common_mistakes": [
+            "⚠️ Gối vào trong (valgus) — gây chấn thương gối",
+            "Không xuống đủ sâu (half squat)",
+            "Gập người quá nhiều ra trước",
+            "Nhấc gót chân khỏi sàn"
+          ],
+          "note": "VUA CÁC BÀI TẬP. Kích hoạt nhiều cơ nhất. Kỹ thuật > cân nặng!"
+        },
+        {
+          "name": "Romanian Deadlift (RDL)",
+          "name_vi": "Nâng tạ kiểu Romania",
+          "category": "compound",
+          "primary_muscles": ["Đùi sau", "Mông"],
+          "secondary_muscles": ["Lưng dưới"],
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "90s",
+          "tempo": "3-1-1-0",
+          "suggested_start_weight": "30-40 kg",
+          "technique": [
+            "Đứng thẳng, tạ đòn trước người",
+            "Gối HƠI CONG (không khóa thẳng, không cong quá)",
+            "Đẩy hông RA SAU, hạ tạ dọc theo chân",
+            "Lưng THẲNG xuyên suốt",
+            "Hạ đến khi cảm thấy hamstring căng (thường ngang đầu gối)",
+            "Siết mông để kéo người lên thẳng"
+          ],
+          "common_mistakes": [
+            "Cong lưng khi hạ tạ",
+            "Hạ quá sâu (tạ chạm sàn = biến thành deadlift thường)"
+          ],
+          "note": "Hamstring + mông — cực kỳ quan trọng cho thẩm mỹ chân sau."
+        },
+        {
+          "name": "Leg Press",
+          "name_vi": "Đạp tạ chân",
+          "category": "compound",
+          "primary_muscles": ["Đùi trước", "Mông"],
+          "secondary_muscles": ["Đùi sau"],
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "90s",
+          "tempo": "2-1-1-0",
+          "suggested_start_weight": "80-120 kg",
+          "technique": [
+            "Lưng áp sát ghế, KHÔNG nhấc mông",
+            "Chân đặt rộng bằng vai trên bàn đạp",
+            "Hạ xuống cho đến khi gối gần 90 độ",
+            "Đẩy lên bằng gót chân",
+            "⚠️ KHÔNG BAO GIỜ khóa gối thẳng hoàn toàn ở đỉnh"
+          ],
+          "common_mistakes": [
+            "⚠️ Khóa gối thẳng (cực kỳ nguy hiểm!)",
+            "Mông nhấc khỏi ghế → đau lưng"
+          ],
+          "note": "An toàn hơn squat. Có thể tập nặng hơn. Đừng khóa gối!"
+        },
+        {
+          "name": "Leg Curl",
+          "name_vi": "Cuốn chân sau",
+          "category": "isolation",
+          "primary_muscles": ["Đùi sau"],
+          "secondary_muscles": [],
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60s",
+          "tempo": "2-1-2-1",
+          "suggested_start_weight": "25-35 kg",
+          "technique": [
+            "Nằm sấp trên máy, gối hơi tụt khỏi mép ghế",
+            "Cuốn chân về phía mông",
+            "Siết hamstring ở đỉnh 1 giây",
+            "Hạ CHẬM (2 giây) — không thả rơi"
+          ],
+          "common_mistakes": [
+            "Nhấc hông khỏi ghế",
+            "Thả rơi tạ ở pha hạ"
+          ],
+          "note": "Hamstring isolation. Kiểm soát pha hạ (eccentric)."
+        },
+        {
+          "name": "Standing Calf Raises",
+          "name_vi": "Nâng bắp chân đứng",
+          "category": "isolation",
+          "primary_muscles": ["Bắp chân (gastrocnemius)"],
+          "secondary_muscles": ["Bắp chân sâu (soleus)"],
+          "sets": 4,
+          "reps": "15-20",
+          "rest": "60s",
+          "tempo": "1-2-1-1",
+          "suggested_start_weight": "Bodyweight + 20-40 kg",
+          "technique": [
+            "Đứng trên bục, gót chân treo ngoài mép",
+            "Nâng gót chân lên cao nhất có thể",
+            "GIỮ ở đỉnh 2 giây — siết bắp chân",
+            "Hạ CHẬM xuống dưới mép bục (full stretch)",
+            "Cảm nhận bắp chân giãn và co toàn bộ biên độ"
+          ],
+          "common_mistakes": [
+            "Biên độ quá ngắn (nâng/hạ vài cm)",
+            "Dùng đà nhún thay vì lực bắp chân"
+          ],
+          "note": "Full range of motion là chìa khóa. Giữ đỉnh 2 giây."
+        },
+        {
+          "name": "Leg Extension",
+          "name_vi": "Duỗi chân trước",
+          "category": "isolation",
+          "primary_muscles": ["Đùi trước"],
+          "secondary_muscles": [],
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60s",
+          "tempo": "2-1-2-1",
+          "suggested_start_weight": "25-40 kg",
+          "technique": [
+            "Ngồi trên máy, lưng áp sát ghế",
+            "Đệm ở mắt cá chân (không trên mu bàn chân)",
+            "Duỗi chân thẳng, siết đùi trước ở đỉnh 1 giây",
+            "Hạ CHẬM, kiểm soát"
+          ],
+          "common_mistakes": [
+            "Duỗi quá nhanh (dùng đà)",
+            "Nhấc mông khỏi ghế"
+          ],
+          "note": "Quad isolation. Nhẹ nhàng, cảm nhận cơ co rõ ở đỉnh."
+        }
+      ]
+    }
+  },
+  "tempo_guide": {
+    "format": "Eccentric-Pause ở đáy-Concentric-Pause ở đỉnh (giây)",
+    "example": "2-1-1-0 = 2s hạ, 1s giữ đáy, 1s nâng, 0s giữ đỉnh",
+    "why": "Kiểm soát tempo tăng Time Under Tension → kích thích cơ tốt hơn"
+  },
+  "progressive_overload_guide": {
+    "rules": [
+      "Ghi lại TỪNG buổi tập: bài, cân nặng, sets, reps",
+      "Khi đạt rep TỐI ĐA trong range → TĂNG 2.5kg lần tiếp",
+      "Ví dụ: Bench Press 60kg 4x8 (đạt hết 8 rep) → tuần sau 62.5kg 4x6-8",
+      "Nếu giảm rep khi tăng cân: OK, cứ tập đến khi lại đạt hết",
+      "Deload 1 tuần sau mỗi 6-8 tuần (giảm 40-50% cân nặng)"
+    ]
+  }
+}

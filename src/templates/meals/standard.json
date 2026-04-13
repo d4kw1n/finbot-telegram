@@ -1,0 +1,233 @@
+{
+  "name": "Menu tăng cân - Trung bình",
+  "tier": "standard",
+  "description": "Menu ~2900 kcal, 100-130k/ngày. Cân bằng chất lượng và chi phí.",
+  "daily_cost_vnd": 120000,
+  "meals": {
+    "breakfast": {
+      "label": "Bữa sáng",
+      "emoji": "🍳",
+      "time": "07:00",
+      "options": [
+        {
+          "items": [
+            "Yến mạch 100g + sữa tươi 200ml",
+            "2 quả trứng nguyên chiên/luộc",
+            "1 quả chuối"
+          ],
+          "cost_vnd": 18000,
+          "calories": 580,
+          "protein": 32,
+          "carbs": 72,
+          "fat": 18
+        },
+        {
+          "items": [
+            "Bánh mì nguyên cám 2 lát",
+            "Trứng ốp la 3 quả",
+            "Sữa tươi 200ml"
+          ],
+          "cost_vnd": 15000,
+          "calories": 560,
+          "protein": 30,
+          "carbs": 58,
+          "fat": 22
+        },
+        {
+          "items": [
+            "Phở gà 1 tô + thêm ức gà",
+            "1 quả trứng luộc"
+          ],
+          "cost_vnd": 22000,
+          "calories": 580,
+          "protein": 38,
+          "carbs": 65,
+          "fat": 14
+        }
+      ]
+    },
+    "snack_am": {
+      "label": "Snack sáng",
+      "emoji": "🥜",
+      "time": "10:00",
+      "options": [
+        {
+          "items": [
+            "Bánh mì + bơ đậu phộng 30g",
+            "1 quả táo",
+            "Sữa hạt 200ml"
+          ],
+          "cost_vnd": 12000,
+          "calories": 350,
+          "protein": 12,
+          "carbs": 40,
+          "fat": 16
+        },
+        {
+          "items": [
+            "Sữa chua Hy Lạp 200g",
+            "Granola 40g",
+            "Mật ong 1 muỗng"
+          ],
+          "cost_vnd": 15000,
+          "calories": 350,
+          "protein": 18,
+          "carbs": 42,
+          "fat": 12
+        }
+      ]
+    },
+    "lunch": {
+      "label": "Bữa trưa",
+      "emoji": "🍚",
+      "time": "12:30",
+      "options": [
+        {
+          "items": [
+            "Cơm trắng 250g",
+            "Ức gà áp chảo 200g",
+            "Rau xào thập cẩm"
+          ],
+          "cost_vnd": 28000,
+          "calories": 680,
+          "protein": 50,
+          "carbs": 80,
+          "fat": 15
+        },
+        {
+          "items": [
+            "Cơm trắng 250g",
+            "Cá thu chiên/nướng 200g",
+            "Rau luộc + canh"
+          ],
+          "cost_vnd": 25000,
+          "calories": 700,
+          "protein": 45,
+          "carbs": 78,
+          "fat": 20
+        },
+        {
+          "items": [
+            "Bún bò 1 tô lớn",
+            "Thêm thịt bò 100g",
+            "Rau sống"
+          ],
+          "cost_vnd": 30000,
+          "calories": 650,
+          "protein": 42,
+          "carbs": 78,
+          "fat": 14
+        }
+      ]
+    },
+    "pre_workout": {
+      "label": "Pre-workout",
+      "emoji": "🍠",
+      "time": "15:30",
+      "options": [
+        {
+          "items": [
+            "Khoai lang 150g",
+            "1 quả chuối",
+            "Sữa chua 150g"
+          ],
+          "cost_vnd": 10000,
+          "calories": 320,
+          "protein": 10,
+          "carbs": 58,
+          "fat": 4
+        },
+        {
+          "items": [
+            "Cơm nắm (onigiri) 2 cái",
+            "1 quả chuối"
+          ],
+          "cost_vnd": 12000,
+          "calories": 330,
+          "protein": 8,
+          "carbs": 62,
+          "fat": 5
+        }
+      ]
+    },
+    "post_workout": {
+      "label": "Post-workout",
+      "emoji": "🥤",
+      "time": "18:00",
+      "options": [
+        {
+          "items": [
+            "1 scoop whey protein + 300ml sữa",
+            "1 quả chuối"
+          ],
+          "cost_vnd": 18000,
+          "calories": 380,
+          "protein": 35,
+          "carbs": 45,
+          "fat": 8
+        }
+      ]
+    },
+    "dinner": {
+      "label": "Bữa tối",
+      "emoji": "🥩",
+      "time": "19:30",
+      "options": [
+        {
+          "items": [
+            "Cơm trắng 200g",
+            "Thịt bò xào 150g",
+            "Rau luộc + canh"
+          ],
+          "cost_vnd": 30000,
+          "calories": 620,
+          "protein": 42,
+          "carbs": 70,
+          "fat": 18
+        },
+        {
+          "items": [
+            "Cơm trắng 200g",
+            "Cá thu nướng 200g",
+            "Rau xào + đậu phụ"
+          ],
+          "cost_vnd": 25000,
+          "calories": 650,
+          "protein": 42,
+          "carbs": 72,
+          "fat": 18
+        },
+        {
+          "items": [
+            "Mì ý + thịt heo bằm 150g",
+            "Sốt cà chua",
+            "Salad rau"
+          ],
+          "cost_vnd": 22000,
+          "calories": 630,
+          "protein": 35,
+          "carbs": 78,
+          "fat": 18
+        }
+      ]
+    },
+    "before_sleep": {
+      "label": "Trước ngủ",
+      "emoji": "🌙",
+      "time": "21:30",
+      "options": [
+        {
+          "items": [
+            "Sữa ấm 200ml",
+            "Hạt mixed nuts 30g"
+          ],
+          "cost_vnd": 10000,
+          "calories": 280,
+          "protein": 14,
+          "carbs": 18,
+          "fat": 18
+        }
+      ]
+    }
+  }
+}

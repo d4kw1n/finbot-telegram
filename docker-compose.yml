@@ -1,14 +1,14 @@
 services:
-  finbot:
+  lifebot:
     build: .
-    container_name: finbot
+    container_name: lifebot
     restart: unless-stopped
-    # Use host network — fixes container DNS/connectivity issues
     network_mode: host
     env_file:
       - .env
+    environment:
+      - MPLCONFIGDIR=/app/.config/matplotlib
     volumes:
-      # Bind mount — DB file lives on host at ./data/ for easy backup
       - ./data:/app/data
     logging:
       driver: json-file

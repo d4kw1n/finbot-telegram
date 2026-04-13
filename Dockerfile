@@ -3,7 +3,6 @@ FROM python:3.13-slim AS builder
 
 WORKDIR /app
 
-# Install dependencies first (cached layer)
 COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
@@ -11,26 +10,30 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 FROM python:3.13-slim
 
 LABEL maintainer="d4kw1n"
-LABEL description="FinBot - Personal Finance Telegram Bot"
+LABEL description="LifeBot - Personal Finance + Fitness Telegram Bot"
 
-# System deps for matplotlib font rendering
+# System deps for matplotlib font rendering + tini for signal handling
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends fonts-dejavu-core && \
+    apt-get install -y --no-install-recommends fonts-dejavu-core tini && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy installed packages from builder
 COPY --from=builder /install /usr/local
 
-# Copy application code
 COPY . .
 
-# Create data directory with proper permissions
-RUN mkdir -p /app/data && chmod 777 /app/data
+# Create data & matplotlib config directories
+RUN useradd -m -r botuser && \
+    mkdir -p /app/data /app/.config/matplotlib && \
+    chown -R botuser:botuser /app/data /app/.config
 
-# Health indicator via process
+ENV MPLCONFIGDIR=/app/.config/matplotlib
+
+USER botuser
+
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
     CMD python -c "import os; exit(0)"
 
+ENTRYPOINT ["tini", "--"]
 CMD ["python", "run.py"]

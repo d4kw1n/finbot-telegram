@@ -1,0 +1,227 @@
+{
+  "name": "Menu tăng cân - Tiết kiệm",
+  "tier": "budget",
+  "description": "Menu ~2800 kcal, dưới 70k/ngày. Thực phẩm rẻ, dễ mua, giàu protein.",
+  "daily_cost_vnd": 65000,
+  "meals": {
+    "breakfast": {
+      "label": "Bữa sáng",
+      "emoji": "🍳",
+      "time": "07:00",
+      "options": [
+        {
+          "items": [
+            "Xôi đậu xanh 1 gói + 2 quả trứng luộc",
+            "Sữa đậu nành 300ml"
+          ],
+          "cost_vnd": 8000,
+          "calories": 550,
+          "protein": 28,
+          "carbs": 72,
+          "fat": 16
+        },
+        {
+          "items": [
+            "Bánh mì trứng ốp la 2 quả",
+            "Sữa đặc pha 1 ly"
+          ],
+          "cost_vnd": 10000,
+          "calories": 520,
+          "protein": 22,
+          "carbs": 65,
+          "fat": 18
+        },
+        {
+          "items": [
+            "Cháo gà 1 tô + thêm trứng",
+            "Quẩy 2 cái"
+          ],
+          "cost_vnd": 12000,
+          "calories": 480,
+          "protein": 25,
+          "carbs": 60,
+          "fat": 14
+        }
+      ]
+    },
+    "snack_am": {
+      "label": "Snack sáng",
+      "emoji": "🥜",
+      "time": "10:00",
+      "options": [
+        {
+          "items": [
+            "Chuối 2 quả",
+            "Đậu phộng rang 30g"
+          ],
+          "cost_vnd": 5000,
+          "calories": 280,
+          "protein": 10,
+          "carbs": 35,
+          "fat": 14
+        },
+        {
+          "items": [
+            "Bánh mì + bơ đậu phộng",
+            "1 quả chuối"
+          ],
+          "cost_vnd": 6000,
+          "calories": 320,
+          "protein": 10,
+          "carbs": 42,
+          "fat": 14
+        }
+      ]
+    },
+    "lunch": {
+      "label": "Bữa trưa",
+      "emoji": "🍚",
+      "time": "12:30",
+      "options": [
+        {
+          "items": [
+            "Cơm 2 chén + đậu phụ chiên 200g",
+            "Trứng chiên 2 quả",
+            "Canh rau"
+          ],
+          "cost_vnd": 12000,
+          "calories": 680,
+          "protein": 35,
+          "carbs": 85,
+          "fat": 22
+        },
+        {
+          "items": [
+            "Cơm 2 chén + thịt kho trứng",
+            "Rau luộc",
+            "Canh chua"
+          ],
+          "cost_vnd": 15000,
+          "calories": 700,
+          "protein": 38,
+          "carbs": 82,
+          "fat": 20
+        },
+        {
+          "items": [
+            "Cơm bình dân: cơm + gà kho + trứng",
+            "Rau xào + canh"
+          ],
+          "cost_vnd": 18000,
+          "calories": 720,
+          "protein": 40,
+          "carbs": 80,
+          "fat": 22
+        }
+      ]
+    },
+    "pre_workout": {
+      "label": "Pre-workout",
+      "emoji": "🍠",
+      "time": "15:30",
+      "options": [
+        {
+          "items": [
+            "Khoai lang luộc 200g",
+            "1 quả chuối"
+          ],
+          "cost_vnd": 5000,
+          "calories": 280,
+          "protein": 5,
+          "carbs": 62,
+          "fat": 1
+        },
+        {
+          "items": [
+            "Bánh mì không nhân 1 ổ",
+            "Sữa đậu nành 200ml"
+          ],
+          "cost_vnd": 5000,
+          "calories": 300,
+          "protein": 10,
+          "carbs": 52,
+          "fat": 6
+        }
+      ]
+    },
+    "post_workout": {
+      "label": "Post-workout",
+      "emoji": "🥤",
+      "time": "18:00",
+      "options": [
+        {
+          "items": [
+            "2 quả trứng luộc",
+            "1 quả chuối",
+            "Sữa đặc pha 1 ly"
+          ],
+          "cost_vnd": 6000,
+          "calories": 350,
+          "protein": 18,
+          "carbs": 45,
+          "fat": 12
+        }
+      ]
+    },
+    "dinner": {
+      "label": "Bữa tối",
+      "emoji": "🍲",
+      "time": "19:30",
+      "options": [
+        {
+          "items": [
+            "Cơm 2 chén + cá rô kho tộ",
+            "Đậu phụ sốt cà chua",
+            "Rau luộc"
+          ],
+          "cost_vnd": 15000,
+          "calories": 650,
+          "protein": 38,
+          "carbs": 78,
+          "fat": 18
+        },
+        {
+          "items": [
+            "Cơm 2 chén + thịt heo kho",
+            "Trứng chiên",
+            "Canh bí đỏ"
+          ],
+          "cost_vnd": 15000,
+          "calories": 680,
+          "protein": 35,
+          "carbs": 80,
+          "fat": 22
+        },
+        {
+          "items": [
+            "Mì tôm 2 gói + 2 trứng + rau",
+            "Đậu phụ chiên 100g"
+          ],
+          "cost_vnd": 10000,
+          "calories": 700,
+          "protein": 28,
+          "carbs": 90,
+          "fat": 24
+        }
+      ]
+    },
+    "before_sleep": {
+      "label": "Trước ngủ",
+      "emoji": "🌙",
+      "time": "21:30",
+      "options": [
+        {
+          "items": [
+            "Sữa tươi có đường 200ml",
+            "1 quả chuối"
+          ],
+          "cost_vnd": 6000,
+          "calories": 220,
+          "protein": 8,
+          "carbs": 35,
+          "fat": 6
+        }
+      ]
+    }
+  }
+}

@@ -4,9 +4,8 @@ from telegram.ext import ContextTypes, CommandHandler
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show comprehensive help guide."""
     text = (
-        "📖 *HƯỚNG DẪN SỬ DỤNG FINBOT*\n"
+        "📖 *HƯỚNG DẪN SỬ DỤNG LIFEBOT*\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
 
         "📝 *GHI CHI TIÊU NHANH*\n"
@@ -24,12 +23,11 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• `2tr5` = 2,500,000đ\n"
         "• `1 củ` = 1,000,000đ\n"
         "• `500 ngàn` = 500,000đ\n"
-        "• `5 trăm` = 500,000đ\n"
         "• `$25` = ~637,500đ\n\n"
 
         "━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
 
-        "📋 *CÁC LỆNH*\n\n"
+        "💰 *TÀI CHÍNH*\n\n"
 
         "*Xem chi tiêu:*\n"
         "• /today — Hôm nay\n"
@@ -44,11 +42,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• /report — Báo cáo + biểu đồ\n"
         "• /advice `<câu hỏi>` — Tư vấn AI\n\n"
 
-        "*Tìm kiếm & Xuất dữ liệu:*\n"
+        "*Tìm kiếm & Xuất:*\n"
         "• /search `<từ khóa>` — Tìm GD\n"
-        "• /export — Xuất CSV tháng này\n"
-        "• /export `all` — Xuất tất cả\n"
-        "• /backup — Sao lưu database\n\n"
+        "• /export — Xuất CSV\n"
+        "• /backup — Sao lưu DB\n\n"
 
         "*Mục tiêu:*\n"
         "• /goal — Xem mục tiêu\n"
@@ -60,6 +57,34 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• /setincome `<số>` — Đổi thu nhập\n"
         "• /setratio `<N W S>` — Đổi tỷ lệ\n\n"
 
+        "━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+
+        "🏋️ *THỂ HÌNH*\n\n"
+
+        "*Tập luyện:*\n"
+        "• /workout — Bài tập hôm nay (PPL)\n"
+        "• /log — Ghi nhận bài tập\n"
+        "• /log `<tên> <kg> <sets>x<reps>` — Log nhanh\n"
+        "• /done\\_workout — Hoàn thành buổi tập\n"
+        "• /exercise — Danh sách bài tập\n"
+        "• /exercise `<số>` — Chi tiết bài tập\n"
+        "• /guide — Hướng dẫn khởi động & tempo\n\n"
+
+        "*Dinh dưỡng:*\n"
+        "• /meal — Menu ăn hôm nay\n"
+        "• /done\\_`<bữa>` — Đánh dấu đã ăn\n"
+        "   _VD: /done\\_breakfast, /done\\_lunch_\n\n"
+
+        "*Theo dõi:*\n"
+        "• /weight `<kg>` — Ghi cân nặng\n"
+        "• /water `<ml>` — Ghi nước uống\n"
+        "• /fittoday — Tổng kết thể hình hôm nay\n"
+        "• /progress — Biểu đồ cân nặng\n"
+        "• /fitreport — Báo cáo thể hình tuần\n\n"
+
+        "*AI Coach:*\n"
+        "• /ask `<câu hỏi>` — Hỏi AI về tập luyện & dinh dưỡng\n\n"
+
         "*Khác:*\n"
         "• /undo — Hoàn tác GD cuối\n"
         "• /start — Reset/Dashboard\n"
@@ -70,5 +95,4 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 def get_help_handler() -> CommandHandler:
-    """Get the help command handler."""
     return CommandHandler("help", help_command)

@@ -1,18 +1,12 @@
-"""AI Service — Multi-provider AI integration for smart finance features.
+"""AI Service — Multi-provider integration for finance + fitness.
 
-Supported providers (in priority order):
-  1. Groq (FREE, fast, generous quota) — Llama 3.3 70B
-  2. Google Gemini 2.0 Flash (FREE but limited quota)
+Supported providers:
+  1. Groq (FREE, fast) — Llama 3.3 70B
+  2. Google Gemini 2.0 Flash (via REST API, no SDK needed)
 
 Set ONE of these in .env:
-  GROQ_API_KEY=gsk_xxx      (recommended — get free at https://console.groq.com)
-  GEMINI_API_KEY=xxx         (fallback — get free at https://aistudio.google.com/apikey)
-
-Features:
-  - Auto-categorize transactions when keyword matching fails
-  - Generate financial insights from spending data
-  - Provide personalized financial advice
-  - Auto-retry on rate limit with exponential backoff
+  GROQ_API_KEY=gsk_xxx
+  GEMINI_API_KEY=xxx
 """
 import asyncio
 import json
@@ -20,61 +14,53 @@ import logging
 
 import httpx
 
-from src.config import GEMINI_API_KEY, GROQ_API_KEY
+from src.config import GEMINI_API_KEY, GROQ_API_KEY, AI_API_KEY, AI_PROVIDER
 
 logger = logging.getLogger(__name__)
 
-# ─── State ────────────────────────────────────────────────────────────
-_provider = None   # "groq" | "gemini" | None
-_client = None     # genai.Client for Gemini
+_provider = None
+_api_key = None
 _available = False
 
-# Retry settings
 _MAX_RETRIES = 3
-_BASE_DELAY = 10  # seconds
+_BASE_DELAY = 10
 
 
 def init_ai():
     """Initialize AI provider. Tries Groq first, then Gemini."""
-    global _provider, _client, _available
+    global _provider, _api_key, _available
 
-    # 1. Try Groq (preferred — better free tier)
     if GROQ_API_KEY:
         _provider = "groq"
+        _api_key = GROQ_API_KEY
         _available = True
         logger.info("✅ AI initialized with Groq (Llama 3.3 70B)")
         return
 
-    # 2. Try Gemini
     if GEMINI_API_KEY:
-        try:
-            from google import genai
-            _client = genai.Client(api_key=GEMINI_API_KEY)
-            _provider = "gemini"
-            _available = True
-            logger.info("✅ AI initialized with Google Gemini 2.0 Flash")
-            return
-        except Exception as e:
-            logger.error(f"Failed to initialize Gemini: {e}")
+        _provider = "gemini"
+        _api_key = GEMINI_API_KEY
+        _available = True
+        logger.info("✅ AI initialized with Google Gemini 2.0 Flash")
+        return
+
+    if AI_API_KEY and AI_PROVIDER:
+        _provider = AI_PROVIDER
+        _api_key = AI_API_KEY
+        _available = True
+        logger.info(f"✅ AI initialized with {AI_PROVIDER}")
+        return
 
     logger.info("⚠️ No AI API key set — AI features disabled.")
-    logger.info("  Get FREE Groq key: https://console.groq.com")
-    logger.info("  Or Gemini key: https://aistudio.google.com/apikey")
     _available = False
 
 
 def is_available() -> bool:
-    """Check if AI service is ready."""
     return _available
 
 
-# ═════════════════════════════════════════════════════════════════════
-# Core generation with retry
-# ═════════════════════════════════════════════════════════════════════
-
 async def _generate(prompt: str, temperature: float = 0.5,
                     max_tokens: int = 500) -> str | None:
-    """Generate content with auto-retry on rate limit."""
     if _provider == "groq":
         return await _groq_generate(prompt, temperature, max_tokens)
     elif _provider == "gemini":
@@ -84,15 +70,15 @@ async def _generate(prompt: str, temperature: float = 0.5,
 
 async def _groq_generate(prompt: str, temperature: float,
                          max_tokens: int) -> str | None:
-    """Call Groq API (OpenAI-compatible)."""
     headers = {
-        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Authorization": f"Bearer {_api_key}",
         "Content-Type": "application/json",
     }
     payload = {
         "model": "llama-3.3-70b-versatile",
         "messages": [
-            {"role": "system", "content": "Bạn là chuyên gia tài chính cá nhân Việt Nam."},
+            {"role": "system",
+             "content": "Bạn là chuyên gia tài chính và thể hình cá nhân Việt Nam."},
             {"role": "user", "content": prompt},
         ],
         "temperature": temperature,
@@ -104,24 +90,19 @@ async def _groq_generate(prompt: str, temperature: float,
             async with httpx.AsyncClient(timeout=30) as client:
                 resp = await client.post(
                     "https://api.groq.com/openai/v1/chat/completions",
-                    headers=headers,
-                    json=payload,
+                    headers=headers, json=payload,
                 )
-
                 if resp.status_code == 429:
                     delay = _BASE_DELAY * (2 ** attempt)
                     logger.warning(f"⏳ Groq rate limited, retry in {delay}s...")
                     await asyncio.sleep(delay)
                     continue
-
                 resp.raise_for_status()
                 data = resp.json()
                 return data["choices"][0]["message"]["content"].strip()
-
         except httpx.HTTPStatusError as e:
             if e.response.status_code == 429:
                 delay = _BASE_DELAY * (2 ** attempt)
-                logger.warning(f"⏳ Groq rate limited, retry in {delay}s...")
                 await asyncio.sleep(delay)
                 continue
             logger.error(f"Groq API error: {e}")
@@ -136,28 +117,37 @@ async def _groq_generate(prompt: str, temperature: float,
 
 async def _gemini_generate(prompt: str, temperature: float,
                            max_tokens: int) -> str | None:
-    """Call Gemini API."""
-    from google.genai import types
+    url = (
+        f"https://generativelanguage.googleapis.com/v1beta/"
+        f"models/gemini-2.0-flash:generateContent?key={_api_key}"
+    )
 
     for attempt in range(_MAX_RETRIES):
         try:
-            response = await _client.aio.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    temperature=temperature,
-                    max_output_tokens=max_tokens,
-                )
-            )
-            return response.text.strip()
-
-        except Exception as e:
-            error_str = str(e)
-            if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str:
+            async with httpx.AsyncClient(timeout=30) as client:
+                resp = await client.post(url, json={
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {
+                        "maxOutputTokens": max_tokens,
+                        "temperature": temperature,
+                    },
+                })
+                if resp.status_code == 429:
+                    delay = _BASE_DELAY * (2 ** attempt)
+                    logger.warning(f"⏳ Gemini rate limited, retry in {delay}s...")
+                    await asyncio.sleep(delay)
+                    continue
+                resp.raise_for_status()
+                data = resp.json()
+                return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 429:
                 delay = _BASE_DELAY * (2 ** attempt)
-                logger.warning(f"⏳ Gemini rate limited, retry in {delay}s...")
                 await asyncio.sleep(delay)
                 continue
+            logger.error(f"Gemini API error: {e}")
+            return None
+        except Exception as e:
             logger.error(f"Gemini error: {e}")
             return None
 
@@ -166,12 +156,11 @@ async def _gemini_generate(prompt: str, temperature: float,
 
 
 # ═════════════════════════════════════════════════════════════════════
-# Public API
+# Finance-specific public API
 # ═════════════════════════════════════════════════════════════════════
 
 async def categorize_transaction(description: str,
                                   categories: list[dict]) -> dict | None:
-    """Use AI to categorize a transaction."""
     if not _available:
         return None
 
@@ -193,25 +182,21 @@ async def categorize_transaction(description: str,
         return None
 
     try:
-        # Extract JSON from possible markdown code block
         if "```" in text:
             parts = text.split("```")
             text = parts[1] if len(parts) > 1 else text
             if text.startswith("json"):
                 text = text[4:]
             text = text.strip()
-
         result = json.loads(text)
         if "category_id" in result and "confidence" in result:
             return result
     except (json.JSONDecodeError, KeyError):
         logger.error(f"AI categorize: invalid response: {text}")
-
     return None
 
 
 async def get_financial_insight(spending_data: dict) -> str:
-    """Generate AI-powered financial insights."""
     if not _available:
         return ("💡 Thêm GROQ_API_KEY hoặc GEMINI_API_KEY vào .env "
                 "để nhận phân tích AI.")
@@ -233,7 +218,6 @@ async def get_financial_insight(spending_data: dict) -> str:
 
 
 async def get_advice(question: str, context_data: dict) -> str:
-    """Get personalized financial advice from AI."""
     if not _available:
         return ("💡 Thêm GROQ_API_KEY hoặc GEMINI_API_KEY vào .env "
                 "để sử dụng tư vấn AI.")
