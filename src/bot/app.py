@@ -13,7 +13,7 @@ from src.bot.handlers.budget import get_budget_handlers
 from src.bot.handlers.report import get_report_handlers
 from src.bot.handlers.goal import get_goal_handlers
 from src.bot.handlers.settings import get_settings_handlers
-from src.bot.handlers.help import get_help_handler
+from src.bot.handlers.help import get_help_handler, get_help_callback_handler
 from src.bot.handlers.utility import get_utility_handlers
 
 from src.bot.handlers.workout import get_workout_handlers
@@ -142,8 +142,9 @@ def create_app() -> Application:
     for handler in get_settings_handlers():
         app.add_handler(handler)
 
-    # 8. Help command
+    # 8. Help command + navigation callbacks
     app.add_handler(get_help_handler())
+    app.add_handler(get_help_callback_handler())
 
     # 9. Utility commands (export, backup, search)
     for handler in get_utility_handlers():
