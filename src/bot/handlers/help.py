@@ -65,15 +65,15 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• /workout — Bài tập hôm nay (PPL)\n"
         "• /log — Ghi nhận bài tập\n"
         "• /log `<tên> <kg> <sets>x<reps>` — Log nhanh\n"
-        "• /done\\_workout — Hoàn thành buổi tập\n"
+        "• `/done_workout` — Hoàn thành buổi tập\n"
         "• /exercise — Danh sách bài tập\n"
         "• /exercise `<số>` — Chi tiết bài tập\n"
         "• /guide — Hướng dẫn khởi động & tempo\n\n"
 
         "*Dinh dưỡng:*\n"
         "• /meal — Menu ăn hôm nay\n"
-        "• /done\\_`<bữa>` — Đánh dấu đã ăn\n"
-        "   _VD: /done\\_breakfast, /done\\_lunch_\n\n"
+        "• `/done_<bữa>` — Đánh dấu đã ăn\n"
+        "   VD: `/done_breakfast` `/done_lunch`\n\n"
 
         "*Theo dõi:*\n"
         "• /weight `<kg>` — Ghi cân nặng\n"
