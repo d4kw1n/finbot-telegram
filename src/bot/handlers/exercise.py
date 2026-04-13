@@ -64,14 +64,14 @@ async def guide_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     lines.append(
         f"🔥 {bold('KHỞI ĐỘNG')} "
-        f"\\(~{warmup.get('duration_min', 10)} phút\\)")
+        f"\\(\\~{warmup.get('duration_min', 10)} phút\\)")
     for step in warmup.get("steps", []):
         lines.append(f"  • {escape_md(step)}")
     lines.append("")
 
     lines.append(
         f"🧊 {bold('HẠ NHIỆT')} "
-        f"\\(~{cooldown.get('duration_min', 5)} phút\\)")
+        f"\\(\\~{cooldown.get('duration_min', 5)} phút\\)")
     for step in cooldown.get("steps", []):
         lines.append(f"  • {escape_md(step)}")
     lines.append("")

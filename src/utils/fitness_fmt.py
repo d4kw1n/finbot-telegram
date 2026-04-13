@@ -112,7 +112,7 @@ def format_meal(meal_type: str, meal: dict) -> str:
         lines.append(f"  • {escape_md(item)}")
     lines.append("")
     lines.append(
-        f"📊 ~{escape_md(str(meal.get('calories', '?')))} kcal "
+        f"📊 \\~{escape_md(str(meal.get('calories', '?')))} kcal "
         f"\\| P: {escape_md(str(meal.get('protein', '?')))}g "
         f"\\| C: {escape_md(str(meal.get('carbs', '?')))}g "
         f"\\| F: {escape_md(str(meal.get('fat', '?')))}g")

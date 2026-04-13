@@ -38,7 +38,7 @@ async def meal_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = f"🍽 {bold('MENU HÔM NAY')}"
     text += f" \\({escape_md(tier_label)}\\)\n"
     text += f"🎯 Mục tiêu: {escape_md(str(daily_cal))} kcal\n"
-    text += f"💰 Chi phí: ~{bold(_format_vnd(total_cost))}đ/ngày\n"
+    text += f"💰 Chi phí: \\~{bold(_format_vnd(total_cost))}đ/ngày\n"
     text += "━━━━━━━━━━━━━━━━━━\n\n"
 
     for meal in day_meals:
@@ -46,13 +46,13 @@ async def meal_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     text += "━━━━━━━━━━━━━━━━━━\n"
     text += (
-        f"📊 {bold('TỔNG')}: ~{escape_md(str(total_cal))} kcal "
+        f"📊 {bold('TỔNG')}: \\~{escape_md(str(total_cal))} kcal "
         f"\\| P: {escape_md(str(total_p))}g "
         f"\\| C: {escape_md(str(total_c))}g "
         f"\\| F: {escape_md(str(total_f))}g\n"
     )
-    text += f"💰 Tổng chi: ~{bold(_format_vnd(total_cost))}đ "
-    text += f"\\(~{escape_md(_format_vnd(total_cost * 30))}/tháng\\)\n\n"
+    text += f"💰 Tổng chi: \\~{bold(_format_vnd(total_cost))}đ "
+    text += f"\\(\\~{escape_md(_format_vnd(total_cost * 30))}/tháng\\)\n\n"
     text += "✅ Dùng /done\\_\\<tên bữa\\> để đánh dấu đã ăn"
 
     await update.message.reply_text(text, parse_mode="MarkdownV2")
